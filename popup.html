@@ -12,14 +12,21 @@
   width: 300px;
   height: 300px;
 }
+
 html{
-  height: 300px; 
+  height: 460px; 
+}
+#myfoot{
+  float: right;
+  margin-right: 8%;
+  margin-top: 17px;
 }
 </style>
 
 </head>
 <body>
-
+<div class="mdl-grid">
+<div class="mdl-cell mdl-cell--12-col">
   <ul class="demo-list-two mdl-list">
 
       <li class="mdl-list__item mdl-list__item--two-line">
@@ -29,7 +36,7 @@ html{
           <span id="minispan1" class="mdl-list__item-sub-title">62 Episodes</span>
         </span>
         <span class="mdl-list__item-secondary-content">
-          <span class="mdl-list__item-secondary-info">Actor</span>
+          <span class="mdl-list__item-secondary-info"><!-- something to be displayed--></span>
           <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">star</i></a>
         </span>
       </li>
@@ -74,6 +81,18 @@ html{
     </span>
   </li>
 </ul>
+</div>
+</div>
+
+  <div id="myfoot" >
+    <!-- Colored FAB button with ripple -->
+    <button id="showmorebtn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <div class="mdl-cell mdl-cell--6-col"></div>
+  <div class="mdl-cell mdl-cell--4-col"></div>
+
 <script src="popup.js"></script>
 </body>
 </html>

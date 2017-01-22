@@ -1,3 +1,6 @@
+//global variable
+var start_index = 0;
+
 function populateImage(platform, index){
   console.log(platform, index);
   index += 1;
@@ -23,25 +26,26 @@ function displayData(obj){
     var j = i+1;
     //contest code
     var elem = document.getElementById('span'+j);
-    elem.innerHTML = obj.result.upcoming_contests[i].code; 
+    elem.innerHTML = obj.result.upcoming_contests[start_index].code; 
     //contest start time
     var elem2 = document.getElementById('minispan'+j);
-    elem2.innerHTML = obj.result.upcoming_contests[i].start_time;
+    elem2.innerHTML = obj.result.upcoming_contests[start_index].start_time;
     //contest image
-    populateImage(obj.result.upcoming_contests[i].platform,i);
+    populateImage(obj.result.upcoming_contests[start_index].platform,i);
+    start_index += 1;
   }
 
 }
 document.addEventListener('DOMContentLoaded', function() {
- 
-  var xhr = new XMLHttpRequest();;
+  var xhr = new XMLHttpRequest();
+  var obj;
   xhr.onreadystatechange = function()
   {
     if(xhr.readyState == 4 )
     {
       if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304)
       {
-        var obj = JSON.parse(xhr.responseText);
+        obj = JSON.parse(xhr.responseText);
         //we got the json object
         //now fill all spans with json data through iteration
         displayData(obj);
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
   checkButton.addEventListener('click', function() 
   {
 
-
+    displayData(obj);
 
   }, false);
 

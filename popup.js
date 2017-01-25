@@ -129,10 +129,11 @@ document.addEventListener('DOMContentLoaded', function() {
   Dude!!
   */
 
-  chrome.storage.sync.get("",function(obj1){
+  chrome.storage.sync.get("saved_results",function(obj1){  //obj1 is used as obj hides global variable
     if(obj1.saved_results != undefined)
     {
       obj = obj1.saved_results;
+      console.log(obj);
       displayData();
     }
     else

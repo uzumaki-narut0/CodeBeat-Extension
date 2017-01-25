@@ -10,8 +10,9 @@
     "default_popup": "popup.html"
   },
   "permissions": [
+    "storage",
     "tabs",
-    "https://tranquil-caverns-50595.herokuapp.com/"
+    "https://tranquil-caverns-50595.herokuapp.com/",
     "https://www.codechef.com/"
 
   ]

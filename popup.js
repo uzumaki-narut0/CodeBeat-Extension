@@ -67,7 +67,7 @@ function populateLinks(platform, index, contest_url){
     and populateLinks() to display corresponding data
     */
 
-function displayData(obj){
+function displayData(){
   var i = 0;
   var total_length = obj.result.upcoming_contests.length; //make sure this function is correct
   for(i=0 ; i<5; i++)
@@ -129,28 +129,44 @@ document.addEventListener('DOMContentLoaded', function() {
   Dude!!
   */
 
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function()
-  {
-    if(xhr.readyState == 4 )
+  chrome.storage.sync.get("",function(obj1){
+    if(obj1.saved_results != undefined)
     {
-      if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304)
-      {
-        obj = JSON.parse(xhr.responseText);
-        //we got the json object
-        //now fill all spans with json data through iteration
-        displayData(obj);
-        
-      }
-      else
-      {
-        alert("Request was unsuccessfull");
-      }
+      obj = obj1.saved_results;
+      displayData();
     }
-  };
-  xhr.open("get","https://tranquil-caverns-50595.herokuapp.com/",true);
-  xhr.send(null);
+    else
+    {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function()
+      {
+        if(xhr.readyState == 4 )
+        {
+          if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304)
+          {
+            obj = JSON.parse(xhr.responseText);
+            chrome.storage.sync.set({"saved_results":obj});
+            //we got the json object
+            //now fill all spans with json data through iteration
+            displayData(obj);
+            
+          }
+          else
+          {
+            alert("Request was unsuccessfull");
+          }
+        }
+      };
+      xhr.open("get","https://tranquil-caverns-50595.herokuapp.com/",true);
+      xhr.send(null);
 
+    }
+  })
+
+
+
+
+  
 
 
   var checkButton = document.getElementById('showmorebtn');
@@ -163,5 +179,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function checkButtonHandler()
 {
-    displayData(obj);
+    displayData();
 }

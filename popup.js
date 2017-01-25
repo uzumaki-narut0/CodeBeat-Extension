@@ -2,6 +2,26 @@
 var start_index = 0;
 var obj;
 
+function change_time_into_normal(unix_timestamp)
+{
+    // Create a new JavaScript Date object based on the timestamp
+  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+  var date = new Date(unix_timestamp*1000);
+  // Hours part from the timestamp
+  var hours = date.getHours();
+  // Minutes part from the timestamp
+  var minutes = "0" + date.getMinutes();
+  // Seconds part from the timestamp
+  var seconds = "0" + date.getSeconds();
+
+  // Will display time in 10:30:23 format
+  var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  return date.getFullYear() +"-"+ date.getMonth() +"-"+ date.getDate() + " " + formattedTime;
+}
+
+
+
+
 /* A function to populate images
     corresponding to the platform
     */
@@ -55,16 +75,25 @@ function displayData(obj){
     if(start_index < total_length)
     {
       var j = i+1;
+      var platform = obj.result.upcoming_contests[start_index].platform.trim();
       //contest code
       var elem = document.getElementById('span'+j);
       elem.innerHTML = obj.result.upcoming_contests[start_index].code; 
       //contest start time
       var elem2 = document.getElementById('minispan'+j);
-      elem2.innerHTML = obj.result.upcoming_contests[start_index].start_time;
+      if(platform == "codeforces")
+      {
+        elem2.innerHTML = change_time_into_normal(obj.result.upcoming_contests[start_index].start_time);
+      }
+      else
+      {
+        elem2.innerHTML = obj.result.upcoming_contests[start_index].start_time;  
+      }
+      
       //contest image
-      populateImage(obj.result.upcoming_contests[start_index].platform,i);
+      populateImage(platform,i);
       //recently added
-      populateLinks(obj.result.upcoming_contests[start_index].platform,i,obj.result.upcoming_contests[start_index].contest_url);
+      populateLinks(platform,i,obj.result.upcoming_contests[start_index].contest_url);
       start_index += 1;  
     }
     else

@@ -1,6 +1,7 @@
 //global variables
 var start_index = 0;
 var obj;
+var checkButton = document.getElementById('showmorebtn');
 
 function change_time_into_normal(unix_timestamp)
 {
@@ -27,7 +28,7 @@ function change_time_into_normal(unix_timestamp)
     */
 
 function populateImage(platform, index){
-  console.log(platform, index);
+  //console.log(platform, index); !for debugging process
   index += 1;
   platform = platform.trim();
   var elem = document.getElementById("myimg"+index);
@@ -53,7 +54,7 @@ function populateLinks(platform, index, contest_url){
   index += 1;
   platform = platform.trim();
   var elem = document.getElementById("link"+index);
-  console.log(contest_url);
+  //console.log(contest_url); !for debugging process
   elem.href = contest_url;
 
      
@@ -98,19 +99,13 @@ function displayData(){
     }
     else
     {
-      //hide the element which displays the data
-      //and make the button unresponsive
-      var elem = document.getElementById("listitem"+j); //verify the index !important
-      elem.style.display = "none";
-      var checkButton = document.getElementById('showmorebtn');
+      var j = i+1;
+      var elem = document.getElementById("listitem"+j);
+      elem.style.visibility = "hidden";
+      start_index += 1;
       checkButton.removeEventListener('click',checkButtonHandler , false);
-
-
-
     }
-    
   }
-
 }
 
 /*
@@ -138,7 +133,41 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     else
     {
-      var xhr = new XMLHttpRequest();
+      refreshData();
+    }
+  })
+
+  //var checkButton = document.getElementById('showmorebtn');
+  checkButton.addEventListener('click',checkButtonHandler , false);
+
+  var refreshButton = document.getElementById("refreshbutton");
+  refreshButton.addEventListener('click',refreshButtonHandler,false);
+
+  var backButton = document.getElementById("backbutton");
+  backButton.addEventListener('click',backButtonHandler,false);  
+
+}, false);
+
+function checkButtonHandler()
+{
+    displayData();
+}
+function refreshButtonHandler()
+{
+  checkButton.addEventListener('click',checkButtonHandler , false);
+  start_index = 0;
+  
+  for(j=1 ; j<=5 ; j++)
+  {
+    console.log("hi");
+    var elem = document.getElementById("listitem"+j); //verify the index !important
+    elem.style.visibility = "visible";  
+  }
+  
+  refreshData();
+}
+function refreshData(){
+  var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function()
       {
         if(xhr.readyState == 4 )
@@ -161,24 +190,22 @@ document.addEventListener('DOMContentLoaded', function() {
       xhr.open("get","https://tranquil-caverns-50595.herokuapp.com/",true);
       xhr.send(null);
 
+}
+function backButtonHandler(){
+  console.log("working");
+  if(start_index != 5)
+  {
+    for(j=1 ; j<=5 ; j++)
+    {
+      console.log("hi");
+      var elem = document.getElementById("listitem"+j); //verify the index !important
+      elem.style.visibility = "visible";  
     }
-  })
-
-
-
+    console.log(start_index);
+    start_index -= 10;
+    console.log(start_index);
+    displayData();  
+  }
 
   
-
-
-  var checkButton = document.getElementById('showmorebtn');
-  checkButton.addEventListener('click',checkButtonHandler , false);
-
-
-
-
-}, false);
-
-function checkButtonHandler()
-{
-    displayData();
 }
